@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Contacto — TiendaTec</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <a href="index.html" class="logo">Tienda<span>Tec</span></a>
+      </div>
+
+      <nav class="nav">
+        <a href="index.html">Inicio</a>
+        <a href="contact.html" aria-current="page">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="contact-card" aria-labelledby="contact-title">
+      <h1 id="contact-title">Contáctanos</h1>
+      <p>¿Tienes dudas, una orden o necesitas soporte técnico? Envíanos un mensaje y te responderemos lo antes posible.</p>
+
+      <form id="contact-form" novalidate>
+        <label for="name">Nombre</label>
+        <input id="name" name="name" type="text" minlength="2" required placeholder="Tu nombre completo">
+        <small class="error" data-for="name" aria-live="polite"></small>
+
+        <label for="email">Correo electrónico</label>
+        <input id="email" name="email" type="email" required placeholder="tu@correo.com">
+        <small class="error" data-for="email" aria-live="polite"></small>
+
+        <label for="subject">Asunto</label>
+        <input id="subject" name="subject" type="text" minlength="3" required placeholder="Motivo del mensaje">
+        <small class="error" data-for="subject" aria-live="polite"></small>
+
+        <label for="message">Mensaje</label>
+        <textarea id="message" name="message" rows="6" minlength="10" required placeholder="Escribe tu mensaje..."></textarea>
+        <small class="error" data-for="message" aria-live="polite"></small>
+
+        <div class="form-actions" style="margin-top:12px;">
+          <button type="submit" class="btn primary">Enviar mensaje</button>
+          <button type="reset" class="btn outline">Limpiar</button>
+        </div>
+      </form>
+
+      <div id="contact-success" class="contact-success hidden" role="status" aria-live="polite" style="margin-top:12px;">
+        <p>✅ Gracias — tu mensaje ha sido enviado. Te responderemos por correo pronto.</p>
+        <p><a href="index.html" class="btn small">Volver al catálogo</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer center">
+    <div class="container">
+      <p>© 2025 TiendaTec</p>
+    </div>
+  </footer>
+
+  <script>
+    // Validación de contacto con feedback en línea.
+    (function () {
+      const form = document.getElementById('contact-form');
+      const successBox = document.getElementById('contact-success');
+      if (!form) return;
+
+      const fields = ['name', 'email', 'subject', 'message'];
+
+      function showError(name, msg) {
+        const el = document.querySelector('[data-for="' + name + '"]');
+        if (el) el.textContent = msg;
+      }
+      function clearErrors() {
+        document.querySelectorAll('.error').forEach(e => e.textContent = '');
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        clearErrors();
+        let valid = true;
+
+        const values = {};
+        fields.forEach(f => values[f] = (form.querySelector('[name="' + f + '"]').value || '').trim());
+
+        if (values.name.length < 2) { showError('name', 'Nombre demasiado corto.'); valid = false; }
+
+        // Validación simple de email (suficiente para demo)
+        if (values.email.indexOf('@') === -1 || values.email.indexOf('.') === -1) {
+          showError('email', 'Correo inválido.'); valid = false;
+        }
+
+        if (values.subject.length < 3) { showError('subject', 'Asunto demasiado corto.'); valid = false; }
+        if (values.message.length < 10) { showError('message', 'Mensaje muy corto (mínimo 10 caracteres).'); valid = false; }
+
+        if (!valid) return;
+
+        // Simular envío -> mostrar mensaje de éxito y ocultar formulario
+        form.classList.add('hidden');
+        successBox.classList.remove('hidden');
+        form.reset();
+      });
+
+      // Limpiar mensajes de error a medida que el usuario escribe
+      form.addEventListener('input', function (e) {
+        const name = e.target.name;
+        if (!name) return;
+        showError(name, '');
+      });
+    })();
+  </script>
+</body>
+</html>

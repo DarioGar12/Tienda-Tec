@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Carrito — TiendaTec</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <div class="brand"><a href="index.html" class="logo">Tienda<span>Tec</span></a></div>
+      <nav class="nav" role="navigation" aria-label="Navegación principal">
+        <a href="index.html">Inicio</a>
+        <a href="contact.html">Contacto</a>
+        <a href="cart.html" aria-current="page">Carrito</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" role="main">
+    <h1 id="cart-page-title">Tu carrito de compras</h1>
+
+    <section id="cart-page" aria-labelledby="cart-page-title">
+      <div id="cart-page-items" class="table-wrap" aria-live="polite"></div>
+
+      <div id="cart-page-totals" class="contact-card" aria-label="Totales">
+        <p>Subtotal: <strong id="page-subtotal">S/ 0.00</strong></p>
+        <p>IGV (18%): <strong id="page-tax">S/ 0.00</strong></p>
+        <p class="grand">Total: <strong id="page-total">S/ 0.00</strong></p>
+        <div class="form-actions" style="margin-top:12px;">
+          <button id="page-clear" class="btn outline">Vaciar carrito</button>
+          <button id="page-checkout" class="btn primary">Finalizar compra</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Reuse modal and toast from index (created by app.js if needed) -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-title" aria-describedby="modal-desc">
+    <div class="modal-content" role="document">
+      <h3 id="modal-title"></h3>
+      <div id="modal-desc"></div>
+      <div class="modal-actions">
+        <button id="modal-cancel" class="btn outline">Cancelar</button>
+        <button id="modal-ok" class="btn primary">Aceptar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="tienda-toast" aria-live="polite" aria-atomic="true" class="toast hidden"></div>
+
+  <footer class="site-footer center" role="contentinfo">
+    <p>© 2025 TiendaTec</p>
+  </footer>
+</body>
+</html>
