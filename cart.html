@@ -1,0 +1,222 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Carrito — TiendaTec</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <div class="brand"><a href="index.html" class="logo">Tienda<span>Tec</span></a></div>
+      <nav class="nav" role="navigation" aria-label="Navegación principal">
+        <a href="index.html">Inicio</a>
+        <a href="contact.html">Contacto</a>
+        <a href="cart.html" aria-current="page">Carrito</a>
+      </nav>
+
+      <div class="search-area" role="search" aria-label="Buscar productos">
+        <input id="search" type="search" placeholder="Buscar producto..." aria-label="Buscar producto">
+        <select id="category-filter" aria-label="Filtrar por categoría">
+          <option value="">Todas las categorías</option>
+          <option value="laptops">Laptops</option>
+          <option value="audio">Audio</option>
+          <option value="perifericos">Periféricos</option>
+          <option value="almacenamiento">Almacenamiento</option>
+        </select>
+        <button id="open-cart" class="btn small primary" aria-controls="cart-drawer" aria-expanded="false" aria-label="Abrir carrito">🛒 (0)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" role="main">
+    <h1 id="cart-page-title">Tu carrito de compras</h1>
+
+    <section id="cart-page" aria-labelledby="cart-page-title">
+      <div id="cart-page-items" class="table-wrap" aria-live="polite"></div>
+
+      <div id="cart-page-totals" class="contact-card" aria-label="Totales">
+        <p>Subtotal: <strong id="page-subtotal">S/ 0.00</strong></p>
+        <p>IGV (18%): <strong id="page-tax">S/ 0.00</strong></p>
+        <p class="grand">Total: <strong id="page-total">S/ 0.00</strong></p>
+        <div class="form-actions" style="margin-top:12px;">
+          <!-- type="button" para evitar submits accidentales -->
+          <button id="page-clear" type="button" class="btn outline">Vaciar carrito</button>
+          <button id="page-checkout" type="button" class="btn primary">Finalizar compra</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer center">
+    <p>© 2025 TiendaTec</p>
+  </footer>
+
+  <!-- Modal fallback (app.js crea uno si faltara, pero es útil incluirlo) -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-title" aria-describedby="modal-desc">
+    <div class="modal-content" role="document">
+      <h3 id="modal-title"></h3>
+      <div id="modal-desc"></div>
+      <div class="modal-actions">
+        <button id="modal-cancel" class="btn outline" type="button">Cancelar</button>
+        <button id="modal-ok" class="btn primary" type="button">Aceptar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast (no intrusivo) -->
+  <div id="tienda-toast" aria-live="polite" aria-atomic="true" class="toast hidden"></div>
+</body>
+</html>
+=======
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Carrito — TiendaTec</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <div class="brand"><a href="index.html" class="logo">Tienda<span>Tec</span></a></div>
+      <nav class="nav" role="navigation" aria-label="Navegación principal">
+        <a href="index.html">Inicio</a>
+        <a href="contact.html">Contacto</a>
+        <a href="cart.html" aria-current="page">Carrito</a>
+      </nav>
+
+      <div class="search-area" role="search" aria-label="Buscar productos">
+        <input id="search" type="search" placeholder="Buscar producto..." aria-label="Buscar producto">
+        <select id="category-filter" aria-label="Filtrar por categoría">
+          <option value="">Todas las categorías</option>
+          <option value="laptops">Laptops</option>
+          <option value="audio">Audio</option>
+          <option value="perifericos">Periféricos</option>
+          <option value="almacenamiento">Almacenamiento</option>
+        </select>
+        <button id="open-cart" class="btn small primary" aria-controls="cart-drawer" aria-expanded="false" aria-label="Abrir carrito">🛒 (0)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" role="main">
+    <h1 id="cart-page-title">Tu carrito de compras</h1>
+
+    <section id="cart-page" aria-labelledby="cart-page-title">
+      <div id="cart-page-items" class="table-wrap" aria-live="polite"></div>
+
+      <div id="cart-page-totals" class="contact-card" aria-label="Totales">
+        <p>Subtotal: <strong id="page-subtotal">S/ 0.00</strong></p>
+        <p>IGV (18%): <strong id="page-tax">S/ 0.00</strong></p>
+        <p class="grand">Total: <strong id="page-total">S/ 0.00</strong></p>
+        <div class="form-actions" style="margin-top:12px;">
+          <!-- type="button" para evitar submits accidentales -->
+          <button id="page-clear" type="button" class="btn outline">Vaciar carrito</button>
+          <button id="page-checkout" type="button" class="btn primary">Finalizar compra</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer center">
+    <p>© 2025 TiendaTec</p>
+  </footer>
+
+  <!-- Modal fallback (app.js crea uno si faltara, pero es útil incluirlo) -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-title" aria-describedby="modal-desc">
+    <div class="modal-content" role="document">
+      <h3 id="modal-title"></h3>
+      <div id="modal-desc"></div>
+      <div class="modal-actions">
+        <button id="modal-cancel" class="btn outline" type="button">Cancelar</button>
+        <button id="modal-ok" class="btn primary" type="button">Aceptar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast (no intrusivo) -->
+  <div id="tienda-toast" aria-live="polite" aria-atomic="true" class="toast hidden"></div>
+</body>
+</html>
+>>>>>>> 664e863 (Primer commit del proyecto Tienda-Tec)
+=======
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Carrito — TiendaTec</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <div class="brand"><a href="index.html" class="logo">Tienda<span>Tec</span></a></div>
+      <nav class="nav" role="navigation" aria-label="Navegación principal">
+        <a href="index.html">Inicio</a>
+        <a href="contact.html">Contacto</a>
+        <a href="cart.html" aria-current="page">Carrito</a>
+      </nav>
+
+      <div class="search-area" role="search" aria-label="Buscar productos">
+        <input id="search" type="search" placeholder="Buscar producto..." aria-label="Buscar producto">
+        <select id="category-filter" aria-label="Filtrar por categoría">
+          <option value="">Todas las categorías</option>
+          <option value="laptops">Laptops</option>
+          <option value="audio">Audio</option>
+          <option value="perifericos">Periféricos</option>
+          <option value="almacenamiento">Almacenamiento</option>
+        </select>
+        <button id="open-cart" class="btn small primary" aria-controls="cart-drawer" aria-expanded="false" aria-label="Abrir carrito">🛒 (0)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" role="main">
+    <h1 id="cart-page-title">Tu carrito de compras</h1>
+
+    <section id="cart-page" aria-labelledby="cart-page-title">
+      <div id="cart-page-items" class="table-wrap" aria-live="polite"></div>
+
+      <div id="cart-page-totals" class="contact-card" aria-label="Totales">
+        <p>Subtotal: <strong id="page-subtotal">S/ 0.00</strong></p>
+        <p>IGV (18%): <strong id="page-tax">S/ 0.00</strong></p>
+        <p class="grand">Total: <strong id="page-total">S/ 0.00</strong></p>
+        <div class="form-actions" style="margin-top:12px;">
+          <!-- type="button" para evitar submits accidentales -->
+          <button id="page-clear" type="button" class="btn outline">Vaciar carrito</button>
+          <button id="page-checkout" type="button" class="btn primary">Finalizar compra</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer center">
+    <p>© 2025 TiendaTec</p>
+  </footer>
+
+  <!-- Modal fallback (app.js crea uno si faltara, pero es útil incluirlo) -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-title" aria-describedby="modal-desc">
+    <div class="modal-content" role="document">
+      <h3 id="modal-title"></h3>
+      <div id="modal-desc"></div>
+      <div class="modal-actions">
+        <button id="modal-cancel" class="btn outline" type="button">Cancelar</button>
+        <button id="modal-ok" class="btn primary" type="button">Aceptar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast (no intrusivo) -->
+  <div id="tienda-toast" aria-live="polite" aria-atomic="true" class="toast hidden"></div>
+</body>
+</html>
+>>>>>>> 1f9b470582823fd51609677065ec7f646879dc34
