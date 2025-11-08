@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Producto — TiendaTec</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+  <style>
+    /* Ajustes rápidos para la ficha (usa el CSS global para la mayoría) */
+    .product-detail { display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap; margin:24px 0; }
+    .product-detail .info { flex:1 1 420px; background:var(--card); padding:16px; border-radius:12px; box-shadow:var(--shadow-1); }
+    .product-detail .image { flex:0 0 360px; display:grid; place-items:center; background:var(--card); padding:16px; border-radius:12px; box-shadow:var(--shadow-1); }
+    .product-detail img { max-width:100%; height:auto; border-radius:8px; }
+    .meta-row { display:flex; gap:12px; align-items:center; margin:8px 0; }
+    .meta-row strong { width:180px; display:inline-block; color:var(--muted); }
+    /* pequeño ajuste: asegurar espacio del header en pantallas pequeñas */
+    @media (max-width:600px){
+      .product-detail{flex-direction:column}
+      .product-detail .image{order:-1; width:100%}
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <div class="brand"><a href="index.html" class="logo">Tienda<span>Tec</span></a></div>
+
+      <nav class="nav" role="navigation" aria-label="Navegación principal">
+        <a href="index.html">Inicio</a>
+        <a href="contact.html">Contacto</a>
+        <a href="cart.html">Carrito</a>
+      </nav>
+
+      <div class="search-area" role="search" aria-label="Buscar productos">
+        <input id="search" type="search" placeholder="Buscar producto..." aria-label="Buscar producto">
+        <select id="category-filter" aria-label="Filtrar por categoría">
+          <option value="">Todas las categorías</option>
+          <option value="laptops">Laptops</option>
+          <option value="audio">Audio</option>
+          <option value="perifericos">Periféricos</option>
+          <option value="almacenamiento">Almacenamiento</option>
+        </select>
+        <!-- Botón de carrito: app.js actualiza su texto a "🛒 (N)" -->
+        <button id="open-cart" class="btn small primary" aria-controls="cart-drawer" aria-expanded="false" aria-label="Abrir carrito">🛒 (0)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" role="main">
+    <section id="product-container" aria-live="polite">
+      <h1 id="product-title"></h1>
+
+      <div class="product-detail">
+        <div class="info" id="product-info">
+          <!-- contenido generado por app.js -->
+        </div>
+
+        <div class="image" id="product-image">
+          <!-- imagen generada por app.js -->
+        </div>
+      </div>
+
+      <p><a href="index.html" class="btn outline">← Volver al catálogo</a></p>
+    </section>
+  </main>
+
+  <!-- Drawer del carrito (igual que en index.html) -->
+  <div id="overlay" class="overlay" tabindex="-1" aria-hidden="true"></div>
+  <aside id="cart-drawer" class="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-title" aria-hidden="true">
+    <div class="cart-header">
+      <h2 id="cart-title">Tu carrito</h2>
+      <button id="close-cart" class="btn outline" aria-label="Cerrar carrito">✕</button>
+    </div>
+
+    <div id="drawer-cart-items" class="cart-items" aria-live="polite" aria-relevant="additions removals">
+      <!-- items generados por app.js -->
+    </div>
+
+    <div class="cart-footer" aria-label="Totales del carrito">
+      <div class="totals">
+        <p>Subtotal: <span id="drawer-subtotal">S/ 0.00</span></p>
+        <p>IGV (18%): <span id="drawer-tax">S/ 0.00</span></p>
+        <p class="grand">Total: <span id="drawer-total">S/ 0.00</span></p>
+      </div>
+      <div class="cart-actions">
+        <button id="clear-cart" class="btn outline" aria-label="Vaciar carrito">Vaciar</button>
+        <!-- Pagar redirige a cart.html -->
+        <button id="checkout-drawer" class="btn primary" aria-label="Ir a la página del carrito para pagar">Pagar</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Modal genérico (reutilizado por app.js) -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-title" aria-describedby="modal-desc">
+    <div class="modal-content" role="document">
+      <h3 id="modal-title"></h3>
+      <div id="modal-desc"></div>
+      <div class="modal-actions">
+        <button id="modal-cancel" class="btn outline">Cancelar</button>
+        <button id="modal-ok" class="btn primary">Aceptar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast (no intrusivo) -->
+  <div id="tienda-toast" aria-live="polite" aria-atomic="true" class="toast hidden"></div>
+
+  <footer class="site-footer center">
+    <div class="container"><p>© 2025 TiendaTec</p></div>
+  </footer>
+</body>
+</html>

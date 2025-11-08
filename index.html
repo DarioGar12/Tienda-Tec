@@ -10,13 +10,12 @@
 <body>
   <header class="site-header" role="banner">
     <div class="container header-inner">
-      <div class="brand">
-        <a href="index.html" class="logo">Tienda<span>Tec</span></a>
-      </div>
+      <div class="brand"><a href="index.html" class="logo">Tienda<span>Tec</span></a></div>
 
       <nav class="nav" role="navigation" aria-label="Navegación principal">
         <a href="index.html">Inicio</a>
         <a href="contact.html">Contacto</a>
+        <a href="cart.html">Carrito</a>
       </nav>
 
       <div class="search-area" role="search" aria-label="Buscar productos">
@@ -28,7 +27,7 @@
           <option value="perifericos">Periféricos</option>
           <option value="almacenamiento">Almacenamiento</option>
         </select>
-        <button id="open-cart" class="btn small primary" aria-controls="cart-drawer" aria-expanded="false" aria-label="Abrir carrito">🛒 Ver carrito</button>
+        <button id="open-cart" class="btn small primary" aria-controls="cart-drawer" aria-expanded="false" aria-label="Abrir carrito">🛒 (0)</button>
       </div>
     </div>
   </header>
@@ -40,21 +39,13 @@
 
   <main class="container" role="main">
     <h2 id="catalog-title">Catálogo de productos</h2>
-    <section id="products" class="product-grid" aria-labelledby="catalog-title" aria-live="polite"></section>
 
-    <div class="table-wrap" aria-hidden="false">
-      <table id="products-table" aria-label="Resumen de productos">
-        <thead>
-          <tr>
-            <th>Producto</th><th>Precio</th><th>Stock</th><th>Acción</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
+    <section id="products" class="product-grid" aria-labelledby="catalog-title" aria-live="polite">
+      <!-- Productos generados dinámicamente por app.js -->
+    </section>
   </main>
 
-  <!-- Drawer del carrito (accessible) -->
+  <!-- Drawer del carrito -->
   <div id="overlay" class="overlay" tabindex="-1" aria-hidden="true"></div>
   <aside id="cart-drawer" class="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-title" aria-hidden="true">
     <div class="cart-header">
@@ -72,13 +63,12 @@
       </div>
       <div class="cart-actions">
         <button id="clear-cart" class="btn outline" aria-label="Vaciar carrito">Vaciar</button>
-        <!-- botón de PAGAR redirige a cart.html -->
         <button id="checkout-drawer" class="btn primary" aria-label="Ir a la página del carrito para pagar">Pagar</button>
       </div>
     </div>
   </aside>
 
-  <!-- Modal genérico (alert/confirm reemplazado por este modal accesible) -->
+  <!-- Modal (reutilizado por app.js) -->
   <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-title" aria-describedby="modal-desc">
     <div class="modal-content" role="document">
       <h3 id="modal-title"></h3>
@@ -90,7 +80,6 @@
     </div>
   </div>
 
-  <!-- Toast (no intrusivo) -->
   <div id="tienda-toast" aria-live="polite" aria-atomic="true" class="toast hidden"></div>
 
   <footer class="site-footer center" role="contentinfo">

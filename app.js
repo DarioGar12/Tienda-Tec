@@ -1,13 +1,13 @@
-// app.js - Versión con modales personalizados, botones +/- y cart.html soporte
+// app.js - Actualizado: sin tabla, product.html ficha, stock mostrado, delegación y drawer
 const TAX_RATE = 0.18;
 
 const PRODUCTS = [
-  { id: 1, title: 'Laptop Ultraligera 14"', price: 2599.00, stock: 5, img: 'images/product1.jpg', desc: '14" FHD, 8GB RAM, 256GB SSD', category: 'laptops' },
-  { id: 2, title: 'Auriculares Inalámbricos', price: 249.90, stock: 12, img: 'images/product2.jpg', desc: 'Cancelación de ruido, 30h batería', category: 'audio' },
-  { id: 3, title: 'Teclado Mecánico RGB', price: 199.50, stock: 8, img: 'images/product3.jpg', desc: 'Switches azules, conexión USB-C', category: 'perifericos' },
-  { id: 4, title: 'Smartwatch Deportivo', price: 499.00, stock: 10, img: 'images/product4.jpg', desc: 'GPS integrado, pulsómetro', category: 'accesorios' },
-  { id: 5, title: 'Monitor 27" 144Hz', price: 1199.00, stock: 4, img: 'images/product5.jpg', desc: 'IPS, 1ms, FreeSync', category: 'perifericos' },
-  { id: 6, title: 'SSD NVMe 1TB', price: 399.00, stock: 18, img: 'images/product6.jpg', desc: 'Lectura 3500MB/s', category: 'almacenamiento' }
+  { id: 1, title: 'Laptop Ultraligera 14"', price: 2599.00, stock: 5, img: 'images/product1.jpg', desc: '14" FHD, 8GB RAM, 256GB SSD', category: 'laptops', brand: 'TechBrand', weightWithPackaging: '1.8 kg', noReturn: false, origin: 'Perú' },
+  { id: 2, title: 'Auriculares Inalámbricos', price: 249.90, stock: 12, img: 'images/product2.jpg', desc: 'Cancelación de ruido, 30h batería', category: 'audio', brand: 'SoundCorp', weightWithPackaging: '0.45 kg', noReturn: false, origin: 'China' },
+  { id: 3, title: 'Teclado Mecánico RGB', price: 199.50, stock: 8, img: 'images/product3.jpg', desc: 'Switches azules, conexión USB-C', category: 'perifericos', brand: 'KeyMasters', weightWithPackaging: '0.9 kg', noReturn: true, origin: 'Taiwán' },
+  { id: 4, title: 'Smartwatch Deportivo', price: 499.00, stock: 10, img: 'images/product4.jpg', desc: 'GPS integrado, pulsómetro', category: 'accesorios', brand: 'WristTech', weightWithPackaging: '0.2 kg', noReturn: false, origin: 'Japón' },
+  { id: 5, title: 'Monitor 27" 144Hz', price: 1199.00, stock: 4, img: 'images/product5.jpg', desc: 'IPS, 1ms, FreeSync', category: 'perifericos', brand: 'ViewPro', weightWithPackaging: '7.5 kg', noReturn: true, origin: 'Corea del Sur' },
+  { id: 6, title: 'SSD NVMe 1TB', price: 399.00, stock: 18, img: 'images/product6.jpg', desc: 'Lectura 3500MB/s', category: 'almacenamiento', brand: 'FastDisk', weightWithPackaging: '0.1 kg', noReturn: false, origin: 'Estados Unidos' }
 ];
 
 let cart = JSON.parse(localStorage.getItem('tiendatec_cart') || '[]');
@@ -25,7 +25,7 @@ function toCents(value) { return Math.round((Number(value) + Number.EPSILON) * 1
 function fromCents(cents) { return (cents / 100).toFixed(2); }
 function persistCart() { localStorage.setItem('tiendatec_cart', JSON.stringify(cart)); }
 
-// ---------- modal personalizado (alert/confirm reemplazados) ----------
+// ---------- modal / alerts ----------
 function ensureModal() {
   let modal = document.getElementById('modal');
   if (modal) return modal;
@@ -47,7 +47,6 @@ function ensureModal() {
   document.body.appendChild(modal);
   return modal;
 }
-
 function showModal({title='Aviso', message='', showCancel=true, okText='Aceptar', cancelText='Cancelar'}) {
   return new Promise(resolve => {
     const modal = ensureModal();
@@ -79,22 +78,14 @@ function showModal({title='Aviso', message='', showCancel=true, okText='Aceptar'
     cancelBtn.addEventListener('click', onCancel);
   });
 }
+function showAlert(message, title='Aviso') { return showModal({title, message, showCancel:false, okText:'Aceptar', cancelText:''}); }
+function showConfirm(message, title='Confirmar') { return showModal({title, message, showCancel:true, okText:'Sí', cancelText:'No'}); }
 
-function showAlert(message, title='Aviso') {
-  return showModal({title, message, showCancel:false, okText:'Aceptar', cancelText:''});
-}
-
-function showConfirm(message, title='Confirmar') {
-  return showModal({title, message, showCancel:true, okText:'Sí', cancelText:'No'});
-}
-
-// ---------- renderizado productos ----------
+// ---------- rendering catálogo (solo tarjetas) ----------
 function renderProducts(filterText = '', category = '') {
   const container = document.getElementById('products');
-  const tableBody = document.querySelector('#products-table tbody');
-  if (!container || !tableBody) return;
+  if (!container) return;
   container.innerHTML = '';
-  tableBody.innerHTML = '';
 
   const normalizedFilter = normalizeText(filterText);
   const normalizedCat = normalizeText(category);
@@ -124,17 +115,6 @@ function renderProducts(filterText = '', category = '') {
       container.appendChild(card);
     });
   }
-
-  visible.forEach(p => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${p.title}</td>
-      <td>S/ ${Number(p.price).toFixed(2)}</td>
-      <td>${p.stock}</td>
-      <td><button class="btn small" data-add="${p.id}" aria-label="Agregar ${p.title} al carrito">Agregar</button></td>
-    `;
-    tableBody.appendChild(tr);
-  });
 }
 
 // ---------- carrito ----------
@@ -177,7 +157,6 @@ function changeQty(productId, newQty) {
   persistCart();
   updateCartUI();
 }
-
 function incQty(productId) {
   const item = findCartItem(productId);
   const product = PRODUCTS.find(p => p.id === productId);
@@ -194,7 +173,6 @@ function decQty(productId) {
   if (item.qty > 1) { item.qty -= 1; persistCart(); updateCartUI(); }
   else { removeFromCart(productId); }
 }
-
 function clearCart() {
   return showConfirm('¿Vaciar todo el carrito?').then(ok => {
     if (!ok) return;
@@ -202,7 +180,6 @@ function clearCart() {
     showToast('Carrito vaciado.');
   });
 }
-
 function checkout() {
   if (cart.length === 0) return showAlert('El carrito está vacío.');
   const totals = calculateTotals();
@@ -226,12 +203,12 @@ function calculateTotals() {
   return { subtotalCents, taxCents, totalCents };
 }
 
-// ---------- UI del carrito (drawer + page) ----------
+// ---------- UI del carrito (drawer + página) ----------
 function updateCartUI() {
   const openBtn = document.getElementById('open-cart');
   const count = cart.reduce((s, i) => s + i.qty, 0);
   if (openBtn) {
-    openBtn.textContent = `🛒 Ver carrito (${count})`;
+    openBtn.textContent = `🛒 Carrito (${count})`;
     openBtn.setAttribute('aria-label', `Abrir carrito, ${count} artículos`);
   }
 
@@ -318,7 +295,7 @@ function updateCartUI() {
   if (pageTotal) pageTotal.textContent = `S/ ${fromCents(totals.totalCents)}`;
 }
 
-// ---------- drawer open/close accessibility ----------
+// ---------- drawer open/close ----------
 function openDrawer() {
   const drawer = document.getElementById('cart-drawer');
   const overlay = document.getElementById('overlay');
@@ -381,7 +358,8 @@ function attachDelegation() {
     const viewBtn = e.target.closest('[data-view]');
     if (viewBtn) {
       const id = Number(viewBtn.dataset.view);
-      showAlert('Detalle no implementado. Producto id: ' + id);
+      // Redirige a la página de producto con id
+      location.href = `product.html?id=${id}`;
       return;
     }
     const removeBtn = e.target.closest('[data-remove]');
@@ -407,7 +385,7 @@ function attachDelegation() {
     const closeCartBtn = e.target.closest('#close-cart');
     if (closeCartBtn) { closeDrawer(); return; }
     const checkoutDrawerBtn = e.target.closest('#checkout-drawer');
-    if (checkoutDrawerBtn) { location.href = 'cart.html'; return; } // redirige a cart.html
+    if (checkoutDrawerBtn) { location.href = 'cart.html'; return; }
   });
 
   document.body.addEventListener('change', (e) => {
@@ -419,28 +397,76 @@ function attachDelegation() {
   });
 }
 
+// ---------- renderizar ficha de producto (product.html) ----------
+function renderProductDetail() {
+  const container = document.getElementById('product-container');
+  if (!container) return;
+  const params = new URLSearchParams(location.search);
+  const id = Number(params.get('id'));
+  if (!id) {
+    container.innerHTML = `<p style="color:var(--muted)">Producto no especificado.</p>`;
+    return;
+  }
+  const p = PRODUCTS.find(x => x.id === id);
+  if (!p) {
+    container.innerHTML = `<p style="color:var(--muted)">Producto no encontrado.</p>`;
+    return;
+  }
+
+  // Título
+  const titleEl = document.getElementById('product-title');
+  if (titleEl) titleEl.textContent = p.title;
+
+  // Info left
+  const info = document.getElementById('product-info');
+  const availabilityText = p.stock > 0 ? 'En stock' : 'Agotado';
+  const availableText = `Quedan ${p.stock} disponibles`;
+
+  info.innerHTML = `
+    <p class="price" style="font-weight:800; font-size:20px">S/ ${p.price.toFixed(2)}</p>
+    <div class="meta-row"><strong>Disponibilidad:</strong><span>${availabilityText}</span></div>
+    <div class="meta-row"><strong>Quedan:</strong><span>${p.stock}</span></div>
+    <div class="meta-row"><strong>Marca:</strong><span>${p.brand}</span></div>
+    <div class="meta-row"><strong>Peso con empaque:</strong><span>${p.weightWithPackaging}</span></div>
+    <div class="meta-row"><strong>Producto sin devolución:</strong><span>${p.noReturn ? 'Sí' : 'No'}</span></div>
+    <div class="meta-row"><strong>Producto de:</strong><span>${p.origin}</span></div>
+    <div style="margin-top:12px;">
+      <button class="btn primary" data-add="${p.id}" aria-label="Agregar ${p.title} al carrito">Agregar al carrito</button>
+      <button class="btn outline" onclick="location.href='index.html'">Volver</button>
+    </div>
+    <hr style="margin:12px 0">
+    <p style="color:var(--muted)">${p.desc}</p>
+  `;
+
+  // Image right
+  const image = document.getElementById('product-image');
+  image.innerHTML = `<img src="${p.img}" alt="${p.title}">`;
+}
+
 // ---------- inicialización ----------
 document.addEventListener('DOMContentLoaded', () => {
   renderProducts();
   updateCartUI();
   attachSearchAndFilter();
   attachDelegation();
-
+  // handlers
   const overlay = document.getElementById('overlay');
   if (overlay) overlay.addEventListener('click', closeDrawer);
-
-  // respaldo: si existe el botón checkout-drawer, redirige (por si delegación no lo captó por alguna razón)
+  
   const checkoutDrawer = document.getElementById('checkout-drawer');
-  if (checkoutDrawer) {
-    checkoutDrawer.addEventListener('click', () => { location.href = 'cart.html'; });
-  }
-
-  const clearBtn = document.getElementById('clear-cart');
-  if (clearBtn) clearBtn.addEventListener('click', () => clearCart());
-
-  // page-specific handlers (cart.html)
-  const pageClear = document.getElementById('page-clear');
-  if (pageClear) pageClear.addEventListener('click', ()=> clearCart());
-  const pageCheckout = document.getElementById('page-checkout');
-  if (pageCheckout) pageCheckout.addEventListener('click', ()=> checkout());
+  if (checkoutDrawer) checkoutDrawer.addEventListener('click', () => location.href = 'cart.html');
+  
+  // Botones de la página del carrito
+  const pageClearBtn = document.getElementById('page-clear');
+  if (pageClearBtn) pageClearBtn.addEventListener('click', clearCart);
+  
+  const pageCheckoutBtn = document.getElementById('page-checkout');
+  if (pageCheckoutBtn) pageCheckoutBtn.addEventListener('click', checkout);
+  
+  // Botón de vaciar en el drawer (carrito flotante)
+  const drawerClearBtn = document.getElementById('clear-cart');
+  if (drawerClearBtn) drawerClearBtn.addEventListener('click', clearCart);
+  
+  // si estamos en product.html, renderiza la ficha
+  renderProductDetail();
 });

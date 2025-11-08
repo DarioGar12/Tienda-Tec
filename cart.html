@@ -16,6 +16,18 @@
         <a href="contact.html">Contacto</a>
         <a href="cart.html" aria-current="page">Carrito</a>
       </nav>
+
+      <div class="search-area" role="search" aria-label="Buscar productos">
+        <input id="search" type="search" placeholder="Buscar producto..." aria-label="Buscar producto">
+        <select id="category-filter" aria-label="Filtrar por categoría">
+          <option value="">Todas las categorías</option>
+          <option value="laptops">Laptops</option>
+          <option value="audio">Audio</option>
+          <option value="perifericos">Periféricos</option>
+          <option value="almacenamiento">Almacenamiento</option>
+        </select>
+        <button id="open-cart" class="btn small primary" aria-controls="cart-drawer" aria-expanded="false" aria-label="Abrir carrito">🛒 (0)</button>
+      </div>
     </div>
   </header>
 
@@ -30,29 +42,31 @@
         <p>IGV (18%): <strong id="page-tax">S/ 0.00</strong></p>
         <p class="grand">Total: <strong id="page-total">S/ 0.00</strong></p>
         <div class="form-actions" style="margin-top:12px;">
-          <button id="page-clear" class="btn outline">Vaciar carrito</button>
-          <button id="page-checkout" class="btn primary">Finalizar compra</button>
+          <!-- type="button" para evitar submits accidentales -->
+          <button id="page-clear" type="button" class="btn outline">Vaciar carrito</button>
+          <button id="page-checkout" type="button" class="btn primary">Finalizar compra</button>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Reuse modal and toast from index (created by app.js if needed) -->
+  <footer class="site-footer center">
+    <p>© 2025 TiendaTec</p>
+  </footer>
+
+  <!-- Modal fallback (app.js crea uno si faltara, pero es útil incluirlo) -->
   <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-title" aria-describedby="modal-desc">
     <div class="modal-content" role="document">
       <h3 id="modal-title"></h3>
       <div id="modal-desc"></div>
       <div class="modal-actions">
-        <button id="modal-cancel" class="btn outline">Cancelar</button>
-        <button id="modal-ok" class="btn primary">Aceptar</button>
+        <button id="modal-cancel" class="btn outline" type="button">Cancelar</button>
+        <button id="modal-ok" class="btn primary" type="button">Aceptar</button>
       </div>
     </div>
   </div>
 
+  <!-- Toast (no intrusivo) -->
   <div id="tienda-toast" aria-live="polite" aria-atomic="true" class="toast hidden"></div>
-
-  <footer class="site-footer center" role="contentinfo">
-    <p>© 2025 TiendaTec</p>
-  </footer>
 </body>
 </html>
